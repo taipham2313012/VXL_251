@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   000045ec  00000000  00000000  00039d1e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00079a47  00000000  00000000  0003e30a  2**0
+ 18 .debug_str    00079a56  00000000  00000000  0003e30a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000b7d51  2**0
+ 19 .comment      00000053  00000000  00000000  000b7d60  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000da0  00000000  00000000  000b7da4  2**2
+ 20 .debug_frame  00000da0  00000000  00000000  000b7db4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -147,10 +147,10 @@ int main(void)
   MX_GPIO_Init();
  80001a0:	f000 f8c4 	bl	800032c <MX_GPIO_Init>
   /* USER CODE BEGIN 2 */
-  int hour = 0, minute = 0, second = 0;
- 80001a4:	2300      	movs	r3, #0
+  int hour = 2, minute = 30, second = 0;
+ 80001a4:	2302      	movs	r3, #2
  80001a6:	60fb      	str	r3, [r7, #12]
- 80001a8:	2300      	movs	r3, #0
+ 80001a8:	231e      	movs	r3, #30
  80001aa:	60bb      	str	r3, [r7, #8]
  80001ac:	2300      	movs	r3, #0
  80001ae:	607b      	str	r3, [r7, #4]
@@ -167,8 +167,8 @@ int main(void)
  80001b8:	68f8      	ldr	r0, [r7, #12]
  80001ba:	f000 f83d 	bl	8000238 <displayClock.5454>
 
-	  HAL_Delay(100);
- 80001be:	2064      	movs	r0, #100	; 0x64
+	  HAL_Delay(25);
+ 80001be:	2019      	movs	r0, #25
  80001c0:	f000 f9d6 	bl	8000570 <HAL_Delay>
 
 	  second++;
