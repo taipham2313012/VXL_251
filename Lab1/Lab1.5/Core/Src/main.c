@@ -204,7 +204,7 @@ int main(void)
 
   	  counter--;
   	  if (counter == 0){
-  		  counter = RED_TIME;
+  		  counter = RED_TIME*2;
   	  }
     /* USER CODE END WHILE */
 

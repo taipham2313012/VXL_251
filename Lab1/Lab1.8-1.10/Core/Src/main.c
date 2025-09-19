@@ -123,7 +123,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  int hour = 2, minute = 30, second = 0;
+  int hour = 1, minute = 50, second = 0;
 
   /* USER CODE END 2 */
 
@@ -134,7 +134,7 @@ int main(void)
     /* USER CODE END WHILE */
 	  displayClock(hour, minute, second);
 
-	  HAL_Delay(25);
+	  HAL_Delay(10);
 
 	  second++;
 	  if (second >= 60) { second = 0; minute++; }
