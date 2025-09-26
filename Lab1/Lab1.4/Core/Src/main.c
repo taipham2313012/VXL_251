@@ -78,7 +78,7 @@ int main(void)
 			{1,1,1,1,0,1,1}  // 9
 		};
 
-		if (num < 0 || num > 9) return; // invalid input
+		if (num < 0 || num > 9) return;
 
 		HAL_GPIO_WritePin(LED_A_GPIO_Port, LED_A_Pin, segmentMap[num][0] ? GPIO_PIN_RESET : GPIO_PIN_SET);
 		HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, segmentMap[num][1] ? GPIO_PIN_RESET : GPIO_PIN_SET);
