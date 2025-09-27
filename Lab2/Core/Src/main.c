@@ -291,18 +291,24 @@ void update7SEG(int index){
     }
 }
 
-	int counter = 100;
-	int state = 0;
+	int led_counter = 50;
+	int seg_counter = 25;
 	void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
-		counter--;
-		if(counter <= 0){
-			counter = 50;
+		led_counter--;
+		seg_counter--;
+		if(led_counter <= 0){
+			led_counter = 50;
 			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 			HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+		}
+
+
+		if(seg_counter <= 0){
+			seg_counter = 25;
 			update7SEG(index_led);
 			index_led++;
-			if(index_led > 3) index_led = 0;
+			if(index_led-3 > 0) index_led = 0;
 		}
 
 	}
