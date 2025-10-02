@@ -1,0 +1,4 @@
+function.c:24:7:set_Timer0	16	static
+function.c:28:7:set_Timer1	16	static
+function.c:32:7:set_Timer2	16	static
+function.c:36:7:timer_run	4	static

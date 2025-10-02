@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "function.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -85,7 +85,7 @@ int hour = 15, minute = 31, second = 50;
 
 const int MAX_LED = 4;
 int index_led = 0;
-int led_buffer[4] = {1, 2, 3, 8};
+int led_buffer[4] = {1, 5, 3, 1};
 void updateClockBuffer(){
 	led_buffer[0] = hour / 10;
 	led_buffer[1] = hour % 10;
@@ -164,27 +164,46 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
-
+  set_Timer0(1000);
+  set_Timer1(500);
+  set_Timer2(250);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  second++;
-	  if (second >= 60){
-	   second = 0;
-	   minute++;
-	   }
-	   if(minute >= 60){
-	   minute = 0;
-	   hour++;
-	   }
-	   if(hour >=24){
-	   hour = 0;
-	   }
+	  if(timer0_flag == 1){
+		  set_Timer0(1000);
+		  second++;
+		  if (second >= 60){
+			  second = 0;
+			  minute++;
+		  }
+		  if(minute >= 60){
+			  minute = 0;
+			  hour++;
+		  }
+		  if(hour >=24){
+			  hour = 0;
+		  }
+		   updateClockBuffer();
+	  }
 
-	   updateClockBuffer();
-	   HAL_Delay(1000);
+		if(timer1_flag == 1){
+			set_Timer1(500);
+			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+			HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+
+		}
+
+
+		if(timer2_flag == 1){
+			set_Timer2(250);
+			update7SEG(index_led);
+			index_led++;
+			if(index_led > 3) index_led = 0;
+
+		}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -314,25 +333,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 
-	int led_counter = 50;
-	int seg_counter = 25;
 	void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
-		led_counter--;
-		seg_counter--;
-		if(led_counter <= 0){
-			led_counter = 50;
-			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-			HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-		}
-
-
-		if(seg_counter <= 0){
-			seg_counter = 25;
-			update7SEG(index_led);
-			index_led++;
-			if(index_led-3 > 0) index_led = 0;
-		}
+		timer_run();
 
 	}
 /* USER CODE END 4 */
