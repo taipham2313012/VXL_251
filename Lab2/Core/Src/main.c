@@ -134,7 +134,7 @@ const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
 uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 
-/*void updateLEDMatrix(int index){
+void updateLEDMatrix(int index){
 	 switch (index){
 	 	 case 0:
 	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 0); //0
@@ -146,7 +146,13 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 1);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 1);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 1);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 1);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 1);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 1);
 			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 case 1:
@@ -159,8 +165,14 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
-			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 0);
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 1);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 0);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 0);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 0);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 0);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 0);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 
 	 		 break;
 	 	 case 2:
@@ -173,8 +185,14 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
-			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 0);
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
 			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 1);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 1);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 1);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 1);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 case 3:
 	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 1);
@@ -186,8 +204,14 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
-			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 1);
 			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 1);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 1);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 1);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 case 4:
 	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 1);
@@ -199,8 +223,14 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
-			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 0);
-			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 1);
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 1);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 1);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 1);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 1);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 case 5:
 	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 1);
@@ -212,8 +242,14 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 1);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 0);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 0);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 0);
 			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 0);
-			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 0);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 case 6:
 	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 1);
@@ -225,8 +261,14 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 0); //6
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
 
-			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 0);
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 1);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 1);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 1);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 1);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
 			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 1);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 1);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 case 7:
 	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 1);
@@ -238,11 +280,17 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 0); //7
 
-			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 0);
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 1);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 1);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 1);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 1);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 1);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 1);
 			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 1);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 1);
 	 		 break;
 	 	 default:
-	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 0); //1
+	 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 1); //no on
 			HAL_GPIO_WritePin(ENM1_GPIO_Port, ENM1_Pin, 1);
 			HAL_GPIO_WritePin(ENM2_GPIO_Port, ENM2_Pin, 1);
 			HAL_GPIO_WritePin(ENM3_GPIO_Port, ENM3_Pin, 1);
@@ -250,9 +298,18 @@ uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 			HAL_GPIO_WritePin(ENM5_GPIO_Port, ENM5_Pin, 1);
 			HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, 1);
 			HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, 1);
+
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
+			HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, 0);
+			HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, 0);
+			HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, 0);
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, 0);
+			HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, 0);
+			HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, 0);
+			HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, 0);
 	 		 break;
 	 }
-}*/
+}
 /* USER CODE END 0 */
 
 /*
@@ -290,12 +347,30 @@ int main(void)
   set_Timer0(1000);
   set_Timer1(500);
   set_Timer2(250);
-
+  set_Timer3(100);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+	  if (timer3_flag == 1){
+		  set_Timer3(100);
+		  updateLEDMatrix(index_led_matrix);
+		  index_led_matrix++;
+		  if (index_led_matrix > 7) index_led_matrix = 0;
+	  }
+	  if (timer2_flag == 1){
+		  set_Timer2(250);
+		  update7SEG(index_led);
+		  index_led++;
+		  if (index_led > 3) index_led = 0;
+	  }
+	  if (timer1_flag == 1){
+		  set_Timer1(500);
+		  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+
+	  }
 	  if (timer0_flag == 1){
 		  set_Timer0(1000);
 		  second++;
@@ -312,20 +387,7 @@ int main(void)
 		  }
 		  updateClockBuffer();
 	  }
-	  if (timer1_flag == 1){
-		  set_Timer1(500);
-		  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-		  /*updateLEDMatrix(index_led_matrix);
-		  index_led_matrix++;
-		  if (index_led > 7) index_led_matrix = 0;*/
-	  }
-	  if (timer2_flag == 1){
-		  set_Timer2(250);
-		  update7SEG(index_led);
-		  index_led++;
-		  if (index_led > 3) index_led = 0;
-	  }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

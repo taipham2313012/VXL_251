@@ -12,9 +12,11 @@ void display7SEG(int num);
 extern int timer0_flag;
 extern int timer1_flag;
 extern int timer2_flag;
+extern int timer3_flag;
 void set_Timer0(int duration0);
 void set_Timer1(int duration1);
 void set_Timer2(int duration2);
+void set_Timer3(int duration3);
 void timer_run();
 
 #endif /* INC_FUNCTION_H_ */
