@@ -174,8 +174,9 @@ int main(void)
     /* USER CODE END WHILE */
 	  if(timer0_flag == 1){
 		  set_Timer0(1000);
-		  second++;
-		  if (second >= 60){
+		   updateClockBuffer();
+		   second++;
+		   if (second >= 60){
 			  second = 0;
 			  minute++;
 		  }
@@ -186,7 +187,6 @@ int main(void)
 		  if(hour >=24){
 			  hour = 0;
 		  }
-		   updateClockBuffer();
 	  }
 
 		if(timer1_flag == 1){
