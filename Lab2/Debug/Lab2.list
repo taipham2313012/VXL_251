@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020020  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000858b  00000000  00000000  00020049  2**0
+ 12 .debug_info   00008578  00000000  00000000  00020049  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001532  00000000  00000000  000285d4  2**0
+ 13 .debug_abbrev 00001532  00000000  00000000  000285c1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000940  00000000  00000000  00029b08  2**3
+ 14 .debug_aranges 00000940  00000000  00000000  00029af8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000898  00000000  00000000  0002a448  2**3
+ 15 .debug_ranges 00000898  00000000  00000000  0002a438  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00015806  00000000  00000000  0002ace0  2**0
+ 16 .debug_macro  00015806  00000000  00000000  0002acd0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000093ad  00000000  00000000  000404e6  2**0
+ 17 .debug_line   000093ad  00000000  00000000  000404d6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00081f6d  00000000  00000000  00049893  2**0
+ 18 .debug_str    00081f6d  00000000  00000000  00049883  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000cb800  2**0
+ 19 .comment      00000053  00000000  00000000  000cb7f0  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002634  00000000  00000000  000cb854  2**2
+ 20 .debug_frame  00002634  00000000  00000000  000cb844  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -600,7 +600,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 const int MAX_LED = 4;
 int index_led = 0;
-int led_buffer[4] = {1, 2, 3, 8};
+int led_buffer[4] = {1, 2, 3, 4};
 void update7SEG(int index){
  8000468:	b580      	push	{r7, lr}
  800046a:	b082      	sub	sp, #8
@@ -748,7 +748,6 @@ void update7SEG(int index){
 08000580 <HAL_TIM_PeriodElapsedCallback>:
 
 	int counter = 100;
-	int state = 0;
 	void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
  8000580:	b580      	push	{r7, lr}
