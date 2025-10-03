@@ -155,7 +155,7 @@ void updateLEDMatrix(int index) {
     HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, (data & 0x40) ? GPIO_PIN_SET : GPIO_PIN_RESET);
     HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, (data & 0x80) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
-void shiftMatrixRight() {
+void shiftMatrix() {
     uint8_t temp = matrix_buffer[MAX_LED_MATRIX - 1];
     for (int i = MAX_LED_MATRIX - 1; i > 0; i--) {
         matrix_buffer[i] = matrix_buffer[i - 1];
@@ -220,7 +220,7 @@ int main(void)
     /* USER CODE END WHILE */
 	  //7seg
 	  if (timer2_flag == 1){
-		  set_Timer2(50);
+		  set_Timer2(250);
 		  update7SEG(index_led);
 		  index_led++;
 		  if (index_led > 3) index_led = 0;
@@ -249,8 +249,8 @@ int main(void)
 		  if (index_led_matrix > 7) index_led_matrix = 0;
 	  }
 	  if (timer4_flag == 1){
-		  set_Timer4(1000);
-		  shiftMatrixRight();
+		  set_Timer4(800);
+		  shiftMatrix();
 	  }
 	  // DOT
 	  if (timer1_flag == 1){

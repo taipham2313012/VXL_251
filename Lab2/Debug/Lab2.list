@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   0000965c  00000000  00000000  0004158d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000823f5  00000000  00000000  0004abe9  2**0
+ 18 .debug_str    000823f0  00000000  00000000  0004abe9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000ccfde  2**0
+ 19 .comment      00000053  00000000  00000000  000ccfd9  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002798  00000000  00000000  000cd034  2**2
+ 20 .debug_frame  00002798  00000000  00000000  000cd02c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -984,28 +984,28 @@ void updateLEDMatrix(int index) {
  8000808:	20000020 	.word	0x20000020
  800080c:	40010c00 	.word	0x40010c00
 
-08000810 <shiftMatrixRight>:
-void shiftMatrixRight() {
+08000810 <shiftMatrix>:
+void shiftMatrix() {
  8000810:	b480      	push	{r7}
  8000812:	b083      	sub	sp, #12
  8000814:	af00      	add	r7, sp, #0
     uint8_t temp = matrix_buffer[MAX_LED_MATRIX - 1];
  8000816:	2308      	movs	r3, #8
  8000818:	3b01      	subs	r3, #1
- 800081a:	4a0f      	ldr	r2, [pc, #60]	; (8000858 <shiftMatrixRight+0x48>)
+ 800081a:	4a0f      	ldr	r2, [pc, #60]	; (8000858 <shiftMatrix+0x48>)
  800081c:	5cd3      	ldrb	r3, [r2, r3]
  800081e:	70fb      	strb	r3, [r7, #3]
     for (int i = MAX_LED_MATRIX - 1; i > 0; i--) {
  8000820:	2308      	movs	r3, #8
  8000822:	3b01      	subs	r3, #1
  8000824:	607b      	str	r3, [r7, #4]
- 8000826:	e00b      	b.n	8000840 <shiftMatrixRight+0x30>
+ 8000826:	e00b      	b.n	8000840 <shiftMatrix+0x30>
         matrix_buffer[i] = matrix_buffer[i - 1];
  8000828:	687b      	ldr	r3, [r7, #4]
  800082a:	3b01      	subs	r3, #1
- 800082c:	4a0a      	ldr	r2, [pc, #40]	; (8000858 <shiftMatrixRight+0x48>)
+ 800082c:	4a0a      	ldr	r2, [pc, #40]	; (8000858 <shiftMatrix+0x48>)
  800082e:	5cd1      	ldrb	r1, [r2, r3]
- 8000830:	4a09      	ldr	r2, [pc, #36]	; (8000858 <shiftMatrixRight+0x48>)
+ 8000830:	4a09      	ldr	r2, [pc, #36]	; (8000858 <shiftMatrix+0x48>)
  8000832:	687b      	ldr	r3, [r7, #4]
  8000834:	4413      	add	r3, r2
  8000836:	460a      	mov	r2, r1
@@ -1016,10 +1016,10 @@ void shiftMatrixRight() {
  800083e:	607b      	str	r3, [r7, #4]
  8000840:	687b      	ldr	r3, [r7, #4]
  8000842:	2b00      	cmp	r3, #0
- 8000844:	dcf0      	bgt.n	8000828 <shiftMatrixRight+0x18>
+ 8000844:	dcf0      	bgt.n	8000828 <shiftMatrix+0x18>
     }
     matrix_buffer[0] = temp;
- 8000846:	4a04      	ldr	r2, [pc, #16]	; (8000858 <shiftMatrixRight+0x48>)
+ 8000846:	4a04      	ldr	r2, [pc, #16]	; (8000858 <shiftMatrix+0x48>)
  8000848:	78fb      	ldrb	r3, [r7, #3]
  800084a:	7013      	strb	r3, [r2, #0]
 }
@@ -1128,8 +1128,8 @@ int main(void)
  80008cc:	681b      	ldr	r3, [r3, #0]
  80008ce:	2b01      	cmp	r3, #1
  80008d0:	d113      	bne.n	80008fa <main+0x9e>
-		  set_Timer2(50);
- 80008d2:	2032      	movs	r0, #50	; 0x32
+		  set_Timer2(250);
+ 80008d2:	20fa      	movs	r0, #250	; 0xfa
  80008d4:	f7ff fc7a 	bl	80001cc <set_Timer2>
 		  update7SEG(index_led);
  80008d8:	4b3b      	ldr	r3, [pc, #236]	; (80009c8 <main+0x16c>)
@@ -1244,11 +1244,11 @@ int main(void)
  8000988:	681b      	ldr	r3, [r3, #0]
  800098a:	2b01      	cmp	r3, #1
  800098c:	d105      	bne.n	800099a <main+0x13e>
-		  set_Timer4(1000);
- 800098e:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+		  set_Timer4(800);
+ 800098e:	f44f 7048 	mov.w	r0, #800	; 0x320
  8000992:	f7ff fc5b 	bl	800024c <set_Timer4>
-		  shiftMatrixRight();
- 8000996:	f7ff ff3b 	bl	8000810 <shiftMatrixRight>
+		  shiftMatrix();
+ 8000996:	f7ff ff3b 	bl	8000810 <shiftMatrix>
 	  }
 	  // DOT
 	  if (timer1_flag == 1){
