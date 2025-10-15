@@ -19,10 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "timer.h"
+#include "fsm.h"
+#include "button_n_display.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,13 +92,33 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
+  fsm_init();
+  button_init();
+  set_Timer2(50);
+  set_Timer1(500);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+	  for (int i = 0; i < NUM_OF_BUTTONS; i++) {
+		  button_scan(&buttons[i]);
+	  }
+	  fsm_run();
 
+	  //7seg
+	  if (timer2_flag == 1){
+		  set_Timer2(50);
+		  update7SEG(index_led);
+		  index_led++;
+		  if (index_led > 3) index_led = 0;
+	  }
+	  // DOT
+	  if (timer1_flag == 1){
+		  set_Timer1(500);
+		  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -205,8 +226,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|SEG2_Pin|SEG3_Pin
                           |SEG4_Pin|SEG5_Pin|SEG6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : BTN1_Pin BTN2_Pin BTN3_Pin */
-  GPIO_InitStruct.Pin = BTN1_Pin|BTN2_Pin|BTN3_Pin;
+  /*Configure GPIO pins : BTN0_Pin BTN1_Pin BTN2_Pin */
+  GPIO_InitStruct.Pin = BTN0_Pin|BTN1_Pin|BTN2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -236,7 +257,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  {
-
+	timer_run();
  }
 /* USER CODE END 4 */
 

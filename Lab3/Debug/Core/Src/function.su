@@ -1,0 +1,7 @@
+function.c:35:7:set_Timer0	16	static
+function.c:40:7:set_Timer1	16	static
+function.c:45:7:set_Timer2	16	static
+function.c:61:7:timer_run	4	static
+function.c:102:7:button_init	4	static
+function.c:123:7:button_scan	24	static
+function.c:166:7:fsm	8	static
