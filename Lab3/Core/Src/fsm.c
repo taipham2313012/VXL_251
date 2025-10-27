@@ -9,7 +9,7 @@
 #include "timer.h"
 #include "button_n_display.h"
 
-// --- State and Duration Variables ---
+//State and Duration Variables
 static AppMode_t current_mode;
 static TrafficState_t traffic_state;
 
@@ -123,8 +123,8 @@ static void run_normal_mode() {
 
 // Handles the logic for modifying the red light duration
 static void run_modify_red_mode() {
-    // ACTION: Blink all Red LEDs (handled by a separate blinking timer).
-    // ACTION: Display "02" and temp_duration on 7-segment LEDs.
+	//Blink all RED LED handled by Modify_Timer.
+	//Display 02 and temp_duration on 7-segment LEDs.
 	if (modify_timer_flag == 1 ) {
 		modify_timer_flag = 0;
 		set_Modify_Timer(500);
@@ -157,8 +157,8 @@ static void run_modify_red_mode() {
 }
 
 static void run_modify_yellow_mode() {
-    // ACTION: Blink all Red LEDs (handled by a separate blinking timer).
-    // ACTION: Display "02" and temp_duration on 7-segment LEDs.
+	//Blink all YELLOW LED handled by Modify_Timer.
+	//Display 03 and temp_duration on 7-segment LEDs.
 	if (modify_timer_flag == 1 ) {
 		modify_timer_flag = 0;
 		set_Modify_Timer(500);
@@ -191,8 +191,8 @@ static void run_modify_yellow_mode() {
 }
 
 static void run_modify_green_mode() {
-    // ACTION: Blink all Red LEDs (handled by a separate blinking timer).
-    // ACTION: Display "02" and temp_duration on 7-segment LEDs.
+    //Blink all GREEN LED handled by Modify_Timer.
+    //Display 04 and temp_duration on 7-segment LEDs.
 	if (modify_timer_flag == 1 ) {
 		modify_timer_flag = 0;
 		set_Modify_Timer(500);
@@ -225,7 +225,7 @@ static void run_modify_green_mode() {
 }
 
 
-// --- Main FSM Functions ---
+//Main FSM Functions
 
 void fsm_init(void) {
     current_mode = INIT;
@@ -233,30 +233,30 @@ void fsm_init(void) {
 }
 
 void fsm_run(void) {
-    // --- Global State Transitions (Mode Switching) ---
+    //Global State Transitions (Mode Switching)
     // Check for MODE button press (Button 0)
 	if (is_button_pressed_edge(0)) {
 		if (current_mode == MODE_NORMAL) {
 			current_mode = MODE_MODIFY_RED;
-			// On entry to modify mode, copy the current value to the temp variable
 			set_Modify_Timer(100);
 			set_road1_leds(0, 0, 0);
 			set_road2_leds(0, 0, 0);
+			//copy the current value to the temp variable
 			temp_duration = red_duration;
 		} else if (current_mode == MODE_MODIFY_RED) {
 			current_mode = MODE_MODIFY_YELLOW;
-			// On entry to modify mode, copy the current value to the temp variable
 			set_Modify_Timer(100);
 			set_road1_leds(0, 0, 0);
 			set_road2_leds(0, 0, 0);
+			//copy the current value to the temp variable
 			temp_duration = yellow_duration;
 		}
 		else if (current_mode == MODE_MODIFY_YELLOW) {
 			current_mode = MODE_MODIFY_GREEN;
-			// On entry to modify mode, copy the current value to the temp variable
 			set_Modify_Timer(100);
 			set_road1_leds(0, 0, 0);
 			set_road2_leds(0, 0, 0);
+			//copy the current value to the temp variable
 			temp_duration = green_duration;
 		}
 		else if (current_mode == MODE_MODIFY_GREEN) {
@@ -266,7 +266,7 @@ void fsm_run(void) {
 		}
     }
 
-    // --- State-Specific Logic ---
+    //State-Specific Logic
     switch (current_mode) {
 		case INIT:
 			current_mode = MODE_NORMAL;

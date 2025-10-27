@@ -85,28 +85,26 @@ void update7SEG(int index){
     }
 }
 
-// Change this to match your number of buttons
+// Number of button
 #define N0_OF_BUTTONS 3
-
-// We want a 3-second hold time
-#define LONG_PRESS 1000 //ms
+#define LONG_PRESS 1000 //ms set long press time
 
 #define BUTTON_IS_PRESSED  GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED GPIO_PIN_SET
 
-// --- Buffers for debouncing ---
+//Buffers for debouncing
 static GPIO_PinState buttonBuffer[N0_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer1[N0_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer2[N0_OF_BUTTONS];
 
-// --- Buffers for edge detection ---
+//Buffers for edge detection
 static GPIO_PinState buttonBuffer_last[N0_OF_BUTTONS];
 
-// --- Buffers for long press ---
+//Buffers for long press
 static uint8_t flagForButtonPress1s[N0_OF_BUTTONS];
 static uint16_t counterForButtonPress1s[N0_OF_BUTTONS];
 
-// --- Map your button pins here ---
+//Button pins
 static GPIO_TypeDef* button_ports[N0_OF_BUTTONS] = {
     BTN0_GPIO_Port,
     BTN1_GPIO_Port,
@@ -163,19 +161,19 @@ unsigned char is_button_pressed(unsigned char index) {
     return (buttonBuffer[index] == BUTTON_IS_PRESSED);
 }
 
-// Check for 3-second hold
+// Check for 1-second hold
 unsigned char is_button_pressed_1s(unsigned char index) {
     if (index >= N0_OF_BUTTONS) return 0;
     return (flagForButtonPress1s[index] == 1);
 }
 
-// Check for *one-shot* press (edge check)
+// Check for one press (edge check)
 unsigned char is_button_pressed_edge(unsigned char index) {
     if (index >= N0_OF_BUTTONS) return 0;
 
-    // Check if the button is pressed *now* but was *not* pressed last time
+    // Check if the button is pressed now but was not pressed last time
     if (buttonBuffer[index] == BUTTON_IS_PRESSED && buttonBuffer_last[index] == BUTTON_IS_RELEASED) {
-        // Update the last state to "consume" the edge
+        // Update the last state
         buttonBuffer_last[index] = BUTTON_IS_PRESSED;
         return 1;
     }
