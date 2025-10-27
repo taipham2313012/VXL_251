@@ -85,71 +85,107 @@ void update7SEG(int index){
     }
 }
 
-Button_t buttons[NUM_OF_BUTTONS];
+// Change this to match your number of buttons
+#define N0_OF_BUTTONS 3
 
- // Call this function once in your main() before the while(1) loop
- void button_init() {
-     // Button 1 (MODE)
-     buttons[0].port = BTN0_GPIO_Port;
-     buttons[0].pin = BTN0_Pin;
-     buttons[0].state = BUTTON_STATE_IDLE;
-     buttons[0].is_pressed_flag = 0;
+// We want a 3-second hold time
+#define LONG_PRESS 1000 //ms
 
-     // Button 2 (MODIFY)
-     buttons[1].port = BTN1_GPIO_Port;
-     buttons[1].pin = BTN1_Pin;
-     buttons[1].state = BUTTON_STATE_IDLE;
-     buttons[1].is_pressed_flag = 0;
+#define BUTTON_IS_PRESSED  GPIO_PIN_RESET
+#define BUTTON_IS_RELEASED GPIO_PIN_SET
 
-     // Button 3 (SET)
-     buttons[2].port = BTN2_GPIO_Port;
-     buttons[2].pin = BTN2_Pin;
-     buttons[2].state = BUTTON_STATE_IDLE;
-     buttons[2].is_pressed_flag = 0;
- }
+// --- Buffers for debouncing ---
+static GPIO_PinState buttonBuffer[N0_OF_BUTTONS];
+static GPIO_PinState debounceButtonBuffer1[N0_OF_BUTTONS];
+static GPIO_PinState debounceButtonBuffer2[N0_OF_BUTTONS];
 
- // Pass a pointer to the button you want to process
- void button_scan(Button_t *button) {
-     // We read the button as "pressed" when the pin is LOW (0)
-     int is_pin_low = (HAL_GPIO_ReadPin(button->port, button->pin) == GPIO_PIN_RESET);
+// --- Buffers for edge detection ---
+static GPIO_PinState buttonBuffer_last[N0_OF_BUTTONS];
 
-     switch (button->state) {
-         case BUTTON_STATE_IDLE:
-             if (is_pin_low) {
-                 // Pin is low, start debouncing
-                 button->state = BUTTON_STATE_DEBOUNCING;
-                 button->last_tick = HAL_GetTick(); // Start the timer
-             }
-             break;
+// --- Buffers for long press ---
+static uint8_t flagForButtonPress1s[N0_OF_BUTTONS];
+static uint16_t counterForButtonPress1s[N0_OF_BUTTONS];
 
-         case BUTTON_STATE_DEBOUNCING:
-             if (is_pin_low) {
-                 // Check if the debounce time has passed
-                 if (HAL_GetTick() - button->last_tick >= DEBOUNCE_TIME_MS) {
-                     // Stable press confirmed!
-                     button->state = BUTTON_STATE_PRESSED;
-                     // **This is the key part: set a flag for the main FSM**
-                     button->is_pressed_flag = 1;
-                 }
-             } else {
-                 // If it bounces back high, reset to idle
-                 button->state = BUTTON_STATE_IDLE;
-             }
-             break;
+// --- Map your button pins here ---
+static GPIO_TypeDef* button_ports[N0_OF_BUTTONS] = {
+    BTN0_GPIO_Port,
+    BTN1_GPIO_Port,
+    BTN2_GPIO_Port
+};
 
-         case BUTTON_STATE_PRESSED:
-             // Wait here until the button is released
-             if (!is_pin_low) {
-                 button->state = BUTTON_STATE_RELEASED;
-             }
-             break;
+static uint16_t button_pins[N0_OF_BUTTONS] = {
+    BTN0_Pin,
+    BTN1_Pin,
+    BTN2_Pin
+};
 
-         case BUTTON_STATE_RELEASED:
-             // This state confirms the release and prevents multiple reads
-             // for a single long press. We just go back to idle.
-             button->state = BUTTON_STATE_IDLE;
-             break;
-     }
- }
+// Initialization function
+void button_init(void) {
+    for (int i = 0; i < N0_OF_BUTTONS; i++) {
+        buttonBuffer[i] = BUTTON_IS_RELEASED;
+        debounceButtonBuffer1[i] = BUTTON_IS_RELEASED;
+        debounceButtonBuffer2[i] = BUTTON_IS_RELEASED;
+        buttonBuffer_last[i] = BUTTON_IS_RELEASED;
+    }
+}
+
+// Main reading function (call from 10ms interrupt)
+void button_reading(void) {
+    for (char i = 0; i < N0_OF_BUTTONS; i++) {
+        // 1. Debounce logic
+        debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
+        debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(button_ports[i], button_pins[i]);
+
+        if (debounceButtonBuffer1[i] == debounceButtonBuffer2[i]) {
+            buttonBuffer[i] = debounceButtonBuffer1[i];
+        }
+
+        // 2. Long press (1-second) logic
+        if (buttonBuffer[i] == BUTTON_IS_PRESSED) {
+            // Start counting
+            if (counterForButtonPress1s[i] < LONG_PRESS/TIMER_CYCLE) {
+                counterForButtonPress1s[i]++;
+            } else {
+                // Flag is set after 3 seconds
+                flagForButtonPress1s[i] = 1;
+            }
+        } else {
+            // Button is released, reset counters
+            counterForButtonPress1s[i] = 0;
+            flagForButtonPress1s[i] = 0;
+        }
+    }
+}
+
+// Check if button is *currently* pressed (level check)
+unsigned char is_button_pressed(unsigned char index) {
+    if (index >= N0_OF_BUTTONS) return 0;
+    return (buttonBuffer[index] == BUTTON_IS_PRESSED);
+}
+
+// Check for 3-second hold
+unsigned char is_button_pressed_1s(unsigned char index) {
+    if (index >= N0_OF_BUTTONS) return 0;
+    return (flagForButtonPress1s[index] == 1);
+}
+
+// Check for *one-shot* press (edge check)
+unsigned char is_button_pressed_edge(unsigned char index) {
+    if (index >= N0_OF_BUTTONS) return 0;
+
+    // Check if the button is pressed *now* but was *not* pressed last time
+    if (buttonBuffer[index] == BUTTON_IS_PRESSED && buttonBuffer_last[index] == BUTTON_IS_RELEASED) {
+        // Update the last state to "consume" the edge
+        buttonBuffer_last[index] = BUTTON_IS_PRESSED;
+        return 1;
+    }
+
+    // Reset the last state when the button is released
+    if (buttonBuffer[index] == BUTTON_IS_RELEASED) {
+        buttonBuffer_last[index] = BUTTON_IS_RELEASED;
+    }
+
+    return 0;
+}
 
 #endif /* SRC_BUTTON_N_DISPLAY_C_ */

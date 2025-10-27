@@ -20,14 +20,23 @@ int green_duration = 3;
 
 // Temporary variable for editing in Mode 2
 static int temp_duration = 0;
+#define DURATION_AUTO_INCREASE 1000
+int auto_increase_count = 1000;
 
-
-// --- FSM Helper Functions ---
 int current_time = 0;
+
 // Handles the logic for the normal traffic light sequence
 static void run_normal_mode() {
     // The nested FSM for traffic light control
-
+	if (red_duration - yellow_duration - green_duration != 0){
+		if (red_duration > yellow_duration){
+			green_duration = red_duration - yellow_duration;
+		}
+		else {
+			green_duration = 1;
+			yellow_duration = red_duration - 1;
+		}
+	}
     switch (traffic_state) {
     	case INIT_LIGHT:
     		set_Traffic_Timer(1000);
@@ -123,18 +132,26 @@ static void run_modify_red_mode() {
 		HAL_GPIO_TogglePin(RED1_GPIO_Port, RED1_Pin);
 		HAL_GPIO_TogglePin(RED2_GPIO_Port, RED2_Pin);
 	}
-    // Check for MODIFY button press to increase value
-    if (buttons[1].is_pressed_flag) { // Assuming button 1 is MODIFY
-    	buttons[1].is_pressed_flag = 0;
-        temp_duration++;
-        if (temp_duration > 99) {
-            temp_duration = 1;
-        }
-    }
+	// Check for MODIFY button press to increase value
+	if (is_button_pressed_edge(1)) { // Assuming button 1 is MODIFY
+		temp_duration++;
+		if (temp_duration > 99) {
+			temp_duration = 1;
+		}
+	}
+	if (is_button_pressed_1s(1)) {// Assuming button 1 is MODIFY
+		auto_increase_count++;
+		if (auto_increase_count >= DURATION_AUTO_INCREASE / TIMER_CYCLE){
+			temp_duration++;
+			if (temp_duration > 99) {
+				temp_duration = 1;
+			}
+			auto_increase_count = 0;
+		}
 
+	}
     // Check for SET button press to save and return to normal
-    if (buttons[2].is_pressed_flag) { // Assuming button 2 is SET
-    	buttons[2].is_pressed_flag = 0;
+    if (is_button_pressed_edge(2)) { // Assuming button 2 is SET
         red_duration = temp_duration; // Save the new value
     }
 }
@@ -149,20 +166,28 @@ static void run_modify_yellow_mode() {
 		HAL_GPIO_TogglePin(YEL1_GPIO_Port, YEL1_Pin);
 		HAL_GPIO_TogglePin(YEL2_GPIO_Port, YEL2_Pin);
 	}
-    // Check for MODIFY button press to increase value
-    if (buttons[1].is_pressed_flag) { // Assuming button 1 is MODIFY
-    	buttons[1].is_pressed_flag = 0;
-        temp_duration++;
-        if (temp_duration > 99) {
-            temp_duration = 1;
-        }
-    }
+	// Check for MODIFY button press to increase value
+	if (is_button_pressed_edge(1)) { // Assuming button 1 is MODIFY
+		temp_duration++;
+		if (temp_duration > 99) {
+			temp_duration = 1;
+		}
+	}
+	if (is_button_pressed_1s(1)) {// Assuming button 1 is MODIFY
+		auto_increase_count++;
+		if (auto_increase_count >= DURATION_AUTO_INCREASE / TIMER_CYCLE){
+			temp_duration++;
+			if (temp_duration > 99) {
+				temp_duration = 1;
+			}
+			auto_increase_count = 0;
+		}
 
-    // Check for SET button press to save and return to normal
-    if (buttons[2].is_pressed_flag) { // Assuming button 2 is SET
-    	buttons[2].is_pressed_flag = 0;
-        yellow_duration = temp_duration; // Save the new value
-    }
+	}
+	// Check for SET button press to save and return to normal
+	if (is_button_pressed_edge(2)) { // Assuming button 2 is SET
+		red_duration = temp_duration; // Save the new value
+	}
 }
 
 static void run_modify_green_mode() {
@@ -175,20 +200,28 @@ static void run_modify_green_mode() {
 		HAL_GPIO_TogglePin(GRN1_GPIO_Port, GRN1_Pin);
 		HAL_GPIO_TogglePin(GRN2_GPIO_Port, GRN2_Pin);
 	}
-    // Check for MODIFY button press to increase value
-    if (buttons[1].is_pressed_flag) { // Assuming button 1 is MODIFY
-    	buttons[1].is_pressed_flag = 0;
-        temp_duration++;
-        if (temp_duration > 99) {
-            temp_duration = 1;
-        }
-    }
+	// Check for MODIFY button press to increase value
+	if (is_button_pressed_edge(1)) { // Assuming button 1 is MODIFY
+		temp_duration++;
+		if (temp_duration > 99) {
+			temp_duration = 1;
+		}
+	}
+	if (is_button_pressed_1s(1)) {// Assuming button 1 is MODIFY
+		auto_increase_count++;
+		if (auto_increase_count >= DURATION_AUTO_INCREASE / TIMER_CYCLE){
+			temp_duration++;
+			if (temp_duration > 99) {
+				temp_duration = 1;
+			}
+			auto_increase_count = 0;
+		}
 
-    // Check for SET button press to save and return to normal
-    if (buttons[2].is_pressed_flag) { // Assuming button 2 is SET
-    	buttons[2].is_pressed_flag = 0;
-        green_duration = temp_duration; // Save the new value
-    }
+	}
+	// Check for SET button press to save and return to normal
+	if (is_button_pressed_edge(2)) { // Assuming button 2 is SET
+		red_duration = temp_duration; // Save the new value
+	}
 }
 
 
@@ -202,19 +235,18 @@ void fsm_init(void) {
 void fsm_run(void) {
     // --- Global State Transitions (Mode Switching) ---
     // Check for MODE button press (Button 0)
-	if (buttons[0].is_pressed_flag) {
-		buttons[0].is_pressed_flag = 0; // Clear the flag
+	if (is_button_pressed_edge(0)) {
 		if (current_mode == MODE_NORMAL) {
 			current_mode = MODE_MODIFY_RED;
 			// On entry to modify mode, copy the current value to the temp variable
-			set_Modify_Timer(500);
+			set_Modify_Timer(100);
 			set_road1_leds(0, 0, 0);
 			set_road2_leds(0, 0, 0);
 			temp_duration = red_duration;
 		} else if (current_mode == MODE_MODIFY_RED) {
 			current_mode = MODE_MODIFY_YELLOW;
 			// On entry to modify mode, copy the current value to the temp variable
-			set_Modify_Timer(500);
+			set_Modify_Timer(100);
 			set_road1_leds(0, 0, 0);
 			set_road2_leds(0, 0, 0);
 			temp_duration = yellow_duration;
@@ -222,7 +254,7 @@ void fsm_run(void) {
 		else if (current_mode == MODE_MODIFY_YELLOW) {
 			current_mode = MODE_MODIFY_GREEN;
 			// On entry to modify mode, copy the current value to the temp variable
-			set_Modify_Timer(500);
+			set_Modify_Timer(100);
 			set_road1_leds(0, 0, 0);
 			set_road2_leds(0, 0, 0);
 			temp_duration = green_duration;

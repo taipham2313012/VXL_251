@@ -1,7 +1,6 @@
-timer.c:41:7:set_Timer0	16	static
-timer.c:46:7:set_Timer1	16	static
-timer.c:51:7:set_Timer2	16	static
-timer.c:56:7:set_Traffic_Timer	16	static
-timer.c:61:7:set_Modify_Timer	16	static
-timer.c:77:7:timer_run	4	static
-timer.c:130:7:fsm	8	static
+timer.c:34:7:set_Timer0	16	static
+timer.c:39:7:set_Timer1	16	static
+timer.c:44:7:set_Timer2	16	static
+timer.c:49:7:set_Traffic_Timer	16	static
+timer.c:54:7:set_Modify_Timer	16	static
+timer.c:60:7:timer_run	4	static

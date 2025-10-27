@@ -102,10 +102,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  for (int i = 0; i < NUM_OF_BUTTONS; i++) {
-		  button_scan(&buttons[i]);
-	  }
-	  fsm_run();
 
 	  //7seg
 	  if (timer2_flag == 1){
@@ -257,6 +253,11 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  {
+	if (htim->Instance == TIM2) {
+		button_reading();
+		fsm_run();
+	}
+
 	timer_run();
  }
 /* USER CODE END 4 */

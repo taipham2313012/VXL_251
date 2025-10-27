@@ -1,6 +1,6 @@
-fsm.c:28:13:run_normal_mode	8	static
-fsm.c:116:13:run_modify_red_mode	8	static
-fsm.c:142:13:run_modify_yellow_mode	8	static
-fsm.c:168:13:run_modify_green_mode	8	static
-fsm.c:197:6:fsm_init	4	static
-fsm.c:202:6:fsm_run	8	static
+fsm.c:29:13:run_normal_mode	8	static
+fsm.c:125:13:run_modify_red_mode	8	static
+fsm.c:159:13:run_modify_yellow_mode	8	static
+fsm.c:193:13:run_modify_green_mode	8	static
+fsm.c:230:6:fsm_init	4	static
+fsm.c:235:6:fsm_run	8	static

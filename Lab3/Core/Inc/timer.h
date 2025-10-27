@@ -13,19 +13,13 @@ extern int timer1_flag;
 extern int timer2_flag;
 extern int traffic_timer_flag;
 extern int modify_timer_flag;
-//extern int timer3_flag;
-//extern int timer4_flag;
 
 void set_Timer0(int duration0);
 void set_Timer1(int duration1);
 void set_Timer2(int duration2);
 void set_Traffic_Timer(int duration);
 void set_Modify_Timer(int duration);
-//void set_Timer3(int duration3);
-//void set_Timer4(int duration4);
 
-
-void fsm(void);
 void timer_run();
 
 #endif /* INC_FUNCTION_H_ */
