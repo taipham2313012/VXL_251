@@ -695,7 +695,7 @@ void button_reading(void) {
     return (buttonBuffer[index] == BUTTON_IS_PRESSED);
 }
 
-// Check for 3-second hold
+// Check for 1-second hold
 unsigned char is_button_pressed_1s(unsigned char index) {
  80005b4:	b480      	push	{r7}
  80005b6:	b083      	sub	sp, #12
@@ -728,7 +728,7 @@ unsigned char is_button_pressed_1s(unsigned char index) {
 
 080005e8 <is_button_pressed_edge>:
 
-// Check for *one-shot* press (edge check)
+// Check for one press (edge check)
 unsigned char is_button_pressed_edge(unsigned char index) {
  80005e8:	b480      	push	{r7}
  80005ea:	b083      	sub	sp, #12
@@ -742,7 +742,7 @@ unsigned char is_button_pressed_edge(unsigned char index) {
  80005f8:	2300      	movs	r3, #0
  80005fa:	e019      	b.n	8000630 <is_button_pressed_edge+0x48>
 
-    // Check if the button is pressed *now* but was *not* pressed last time
+    // Check if the button is pressed now but was not pressed last time
     if (buttonBuffer[index] == BUTTON_IS_PRESSED && buttonBuffer_last[index] == BUTTON_IS_RELEASED) {
  80005fc:	79fb      	ldrb	r3, [r7, #7]
  80005fe:	4a0f      	ldr	r2, [pc, #60]	; (800063c <is_button_pressed_edge+0x54>)
@@ -754,7 +754,7 @@ unsigned char is_button_pressed_edge(unsigned char index) {
  800060a:	5cd3      	ldrb	r3, [r2, r3]
  800060c:	2b01      	cmp	r3, #1
  800060e:	d105      	bne.n	800061c <is_button_pressed_edge+0x34>
-        // Update the last state to "consume" the edge
+        // Update the last state
         buttonBuffer_last[index] = BUTTON_IS_PRESSED;
  8000610:	79fb      	ldrb	r3, [r7, #7]
  8000612:	4a0b      	ldr	r2, [pc, #44]	; (8000640 <is_button_pressed_edge+0x58>)
@@ -1131,8 +1131,8 @@ static void run_normal_mode() {
 static void run_modify_red_mode() {
  800085c:	b580      	push	{r7, lr}
  800085e:	af00      	add	r7, sp, #0
-    // ACTION: Blink all Red LEDs (handled by a separate blinking timer).
-    // ACTION: Display "02" and temp_duration on 7-segment LEDs.
+	//Blink all RED LED handled by Modify_Timer.
+	//Display 02 and temp_duration on 7-segment LEDs.
 	if (modify_timer_flag == 1 ) {
  8000860:	4b2b      	ldr	r3, [pc, #172]	; (8000910 <run_modify_red_mode+0xb4>)
  8000862:	681b      	ldr	r3, [r3, #0]
@@ -1252,8 +1252,8 @@ static void run_modify_red_mode() {
 static void run_modify_yellow_mode() {
  8000924:	b580      	push	{r7, lr}
  8000926:	af00      	add	r7, sp, #0
-    // ACTION: Blink all Red LEDs (handled by a separate blinking timer).
-    // ACTION: Display "02" and temp_duration on 7-segment LEDs.
+	//Blink all YELLOW LED handled by Modify_Timer.
+	//Display 03 and temp_duration on 7-segment LEDs.
 	if (modify_timer_flag == 1 ) {
  8000928:	4b2b      	ldr	r3, [pc, #172]	; (80009d8 <run_modify_yellow_mode+0xb4>)
  800092a:	681b      	ldr	r3, [r3, #0]
@@ -1352,7 +1352,7 @@ static void run_modify_yellow_mode() {
  80009c4:	4603      	mov	r3, r0
  80009c6:	2b00      	cmp	r3, #0
  80009c8:	d003      	beq.n	80009d2 <run_modify_yellow_mode+0xae>
-		red_duration = temp_duration; // Save the new value
+		yellow_duration = temp_duration; // Save the new value
  80009ca:	4b04      	ldr	r3, [pc, #16]	; (80009dc <run_modify_yellow_mode+0xb8>)
  80009cc:	681b      	ldr	r3, [r3, #0]
  80009ce:	4a06      	ldr	r2, [pc, #24]	; (80009e8 <run_modify_yellow_mode+0xc4>)
@@ -1366,15 +1366,15 @@ static void run_modify_yellow_mode() {
  80009dc:	2000007c 	.word	0x2000007c
  80009e0:	40010800 	.word	0x40010800
  80009e4:	20000030 	.word	0x20000030
- 80009e8:	20000024 	.word	0x20000024
+ 80009e8:	20000028 	.word	0x20000028
 
 080009ec <run_modify_green_mode>:
 
 static void run_modify_green_mode() {
  80009ec:	b580      	push	{r7, lr}
  80009ee:	af00      	add	r7, sp, #0
-    // ACTION: Blink all Red LEDs (handled by a separate blinking timer).
-    // ACTION: Display "02" and temp_duration on 7-segment LEDs.
+    //Blink all GREEN LED handled by Modify_Timer.
+    //Display 04 and temp_duration on 7-segment LEDs.
 	if (modify_timer_flag == 1 ) {
  80009f0:	4b2b      	ldr	r3, [pc, #172]	; (8000aa0 <run_modify_green_mode+0xb4>)
  80009f2:	681b      	ldr	r3, [r3, #0]
@@ -1473,7 +1473,7 @@ static void run_modify_green_mode() {
  8000a8c:	4603      	mov	r3, r0
  8000a8e:	2b00      	cmp	r3, #0
  8000a90:	d003      	beq.n	8000a9a <run_modify_green_mode+0xae>
-		red_duration = temp_duration; // Save the new value
+		green_duration = temp_duration; // Save the new value
  8000a92:	4b04      	ldr	r3, [pc, #16]	; (8000aa4 <run_modify_green_mode+0xb8>)
  8000a94:	681b      	ldr	r3, [r3, #0]
  8000a96:	4a06      	ldr	r2, [pc, #24]	; (8000ab0 <run_modify_green_mode+0xc4>)
@@ -1487,12 +1487,12 @@ static void run_modify_green_mode() {
  8000aa4:	2000007c 	.word	0x2000007c
  8000aa8:	40010800 	.word	0x40010800
  8000aac:	20000030 	.word	0x20000030
- 8000ab0:	20000024 	.word	0x20000024
+ 8000ab0:	2000002c 	.word	0x2000002c
 
 08000ab4 <fsm_init>:
 
 
-// --- Main FSM Functions ---
+//Main FSM Functions
 
 void fsm_init(void) {
  8000ab4:	b480      	push	{r7}
@@ -1518,7 +1518,7 @@ void fsm_init(void) {
 void fsm_run(void) {
  8000ad4:	b580      	push	{r7, lr}
  8000ad6:	af00      	add	r7, sp, #0
-    // --- Global State Transitions (Mode Switching) ---
+    //Global State Transitions (Mode Switching)
     // Check for MODE button press (Button 0)
 	if (is_button_pressed_edge(0)) {
  8000ad8:	2000      	movs	r0, #0
@@ -1535,7 +1535,6 @@ void fsm_run(void) {
  8000aec:	4b39      	ldr	r3, [pc, #228]	; (8000bd4 <fsm_run+0x100>)
  8000aee:	2202      	movs	r2, #2
  8000af0:	701a      	strb	r2, [r3, #0]
-			// On entry to modify mode, copy the current value to the temp variable
 			set_Modify_Timer(100);
  8000af2:	2064      	movs	r0, #100	; 0x64
  8000af4:	f000 fab6 	bl	8001064 <set_Modify_Timer>
@@ -1549,6 +1548,7 @@ void fsm_run(void) {
  8000b04:	2100      	movs	r1, #0
  8000b06:	2000      	movs	r0, #0
  8000b08:	f7ff fb50 	bl	80001ac <set_road2_leds>
+			//copy the current value to the temp variable
 			temp_duration = red_duration;
  8000b0c:	4b32      	ldr	r3, [pc, #200]	; (8000bd8 <fsm_run+0x104>)
  8000b0e:	681b      	ldr	r3, [r3, #0]
@@ -1564,7 +1564,6 @@ void fsm_run(void) {
  8000b1e:	4b2d      	ldr	r3, [pc, #180]	; (8000bd4 <fsm_run+0x100>)
  8000b20:	2203      	movs	r2, #3
  8000b22:	701a      	strb	r2, [r3, #0]
-			// On entry to modify mode, copy the current value to the temp variable
 			set_Modify_Timer(100);
  8000b24:	2064      	movs	r0, #100	; 0x64
  8000b26:	f000 fa9d 	bl	8001064 <set_Modify_Timer>
@@ -1578,6 +1577,7 @@ void fsm_run(void) {
  8000b36:	2100      	movs	r1, #0
  8000b38:	2000      	movs	r0, #0
  8000b3a:	f7ff fb37 	bl	80001ac <set_road2_leds>
+			//copy the current value to the temp variable
 			temp_duration = yellow_duration;
  8000b3e:	4b28      	ldr	r3, [pc, #160]	; (8000be0 <fsm_run+0x10c>)
  8000b40:	681b      	ldr	r3, [r3, #0]
@@ -1594,7 +1594,6 @@ void fsm_run(void) {
  8000b50:	4b20      	ldr	r3, [pc, #128]	; (8000bd4 <fsm_run+0x100>)
  8000b52:	2204      	movs	r2, #4
  8000b54:	701a      	strb	r2, [r3, #0]
-			// On entry to modify mode, copy the current value to the temp variable
 			set_Modify_Timer(100);
  8000b56:	2064      	movs	r0, #100	; 0x64
  8000b58:	f000 fa84 	bl	8001064 <set_Modify_Timer>
@@ -1608,6 +1607,7 @@ void fsm_run(void) {
  8000b68:	2100      	movs	r1, #0
  8000b6a:	2000      	movs	r0, #0
  8000b6c:	f7ff fb1e 	bl	80001ac <set_road2_leds>
+			//copy the current value to the temp variable
 			temp_duration = green_duration;
  8000b70:	4b1c      	ldr	r3, [pc, #112]	; (8000be4 <fsm_run+0x110>)
  8000b72:	681b      	ldr	r3, [r3, #0]
@@ -1632,7 +1632,7 @@ void fsm_run(void) {
 		}
     }
 
-    // --- State-Specific Logic ---
+    //State-Specific Logic
     switch (current_mode) {
  8000b8e:	4b11      	ldr	r3, [pc, #68]	; (8000bd4 <fsm_run+0x100>)
  8000b90:	781b      	ldrb	r3, [r3, #0]

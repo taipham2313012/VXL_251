@@ -186,7 +186,7 @@ static void run_modify_yellow_mode() {
 	}
 	// Check for SET button press to save and return to normal
 	if (is_button_pressed_edge(2)) { // Assuming button 2 is SET
-		red_duration = temp_duration; // Save the new value
+		yellow_duration = temp_duration; // Save the new value
 	}
 }
 
@@ -220,7 +220,7 @@ static void run_modify_green_mode() {
 	}
 	// Check for SET button press to save and return to normal
 	if (is_button_pressed_edge(2)) { // Assuming button 2 is SET
-		red_duration = temp_duration; // Save the new value
+		green_duration = temp_duration; // Save the new value
 	}
 }
 

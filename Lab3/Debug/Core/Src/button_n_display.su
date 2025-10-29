@@ -3,8 +3,8 @@ button_n_display.c:19:6:set_road2_leds	24	static
 button_n_display.c:25:6:display7SEG	88	static
 button_n_display.c:55:6:update_buffer	16	static
 button_n_display.c:61:6:update7SEG	16	static
-button_n_display.c:123:6:button_init	16	static
-button_n_display.c:133:6:button_reading	24	static
-button_n_display.c:161:15:is_button_pressed	16	static
-button_n_display.c:167:15:is_button_pressed_1s	16	static
-button_n_display.c:173:15:is_button_pressed_edge	16	static
+button_n_display.c:121:6:button_init	16	static
+button_n_display.c:131:6:button_reading	24	static
+button_n_display.c:159:15:is_button_pressed	16	static
+button_n_display.c:165:15:is_button_pressed_1s	16	static
+button_n_display.c:171:15:is_button_pressed_edge	16	static
