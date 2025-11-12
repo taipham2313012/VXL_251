@@ -1,0 +1,5 @@
+button_n_display.c:117:6:button_init	16	static
+button_n_display.c:127:6:button_reading	24	static
+button_n_display.c:155:15:is_button_pressed	16	static
+button_n_display.c:161:15:is_button_pressed_1s	16	static
+button_n_display.c:167:15:is_button_pressed_edge	16	static
