@@ -9,7 +9,6 @@
 #define SRC_FUNCTION_C_
 
 #include "timer.h"
-#include "button_n_display.h"
  int timer0_counter = 0;
  int timer0_flag = 0;
  int timer0_inni = 0;
@@ -30,8 +29,6 @@
 	 timer1_counter = timer1_inni;
  	 timer1_flag = 0;
  	 }
-
-
  void timer_run(){
 	 if(timer0_counter > 0){
 		 timer0_counter--;

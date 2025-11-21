@@ -169,9 +169,6 @@ void SCH_Dispatch_Tasks(void) {
             (*SCH_tasks_G[Index].pTask)(); // Run the task
             SCH_tasks_G[Index].RunMe = 0; // Reset RunMe flag
 
-            // Periodic tasks were already re-added in SCH_Update
-            // - if this is a 'one shot' task, remove it
-                // This task struct is now free
             SCH_Delete_Task(Index);
 
         }
@@ -221,14 +218,11 @@ unsigned char SCH_Delete_Task(const uint8_t TASK_INDEX) {
     }
 
     // Task was not found in the waiting list.
-    // This is normal for one-shot tasks that have already run.
-    // Just return it to the free list.
     if (SCH_tasks_G[TASK_INDEX].pTask != 0) {
         SCH_Return_Task_To_Free_List(TASK_INDEX);
         return RETURN_NORMAL;
     }
 
-    // Should not get here, but as a fallback
     return RETURN_ERROR;
 }
 
