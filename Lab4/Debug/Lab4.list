@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  000162e2  00000000  00000000  0002b198  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000995c  00000000  00000000  0004147a  2**0
+ 17 .debug_line   0000995a  00000000  00000000  0004147a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00081ff5  00000000  00000000  0004add6  2**0
+ 18 .debug_str    00081ff5  00000000  00000000  0004add4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000ccdcb  2**0
+ 19 .comment      00000053  00000000  00000000  000ccdc9  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002764  00000000  00000000  000cce20  2**2
+ 20 .debug_frame  00002764  00000000  00000000  000cce1c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1138,9 +1138,6 @@ void SCH_Dispatch_Tasks(void) {
  800075e:	2200      	movs	r2, #0
  8000760:	701a      	strb	r2, [r3, #0]
 
-            // Periodic tasks were already re-added in SCH_Update
-            // - if this is a 'one shot' task, remove it
-                // This task struct is now free
             SCH_Delete_Task(Index);
  8000762:	79fb      	ldrb	r3, [r7, #7]
  8000764:	4618      	mov	r0, r3
@@ -1298,8 +1295,6 @@ unsigned char SCH_Delete_Task(const uint8_t TASK_INDEX) {
     }
 
     // Task was not found in the waiting list.
-    // This is normal for one-shot tasks that have already run.
-    // Just return it to the free list.
     if (SCH_tasks_G[TASK_INDEX].pTask != 0) {
  8000838:	79fb      	ldrb	r3, [r7, #7]
  800083a:	4a08      	ldr	r2, [pc, #32]	; (800085c <SCH_Delete_Task+0xd8>)
@@ -1317,7 +1312,6 @@ unsigned char SCH_Delete_Task(const uint8_t TASK_INDEX) {
  8000850:	e000      	b.n	8000854 <SCH_Delete_Task+0xd0>
     }
 
-    // Should not get here, but as a fallback
     return RETURN_ERROR;
  8000852:	2300      	movs	r3, #0
 }
